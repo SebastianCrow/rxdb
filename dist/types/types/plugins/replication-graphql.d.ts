@@ -24,6 +24,7 @@ export interface GraphQLSyncPushOptions {
 export type SyncOptionsGraphQL = {
     url: string;
     headers?: { [k: string]: string }; // send with all requests to the endpoint
+    credentials?: RequestCredentials;
     waitForLeadership?: boolean; // default=true
     pull?: GraphQLSyncPullOptions;
     push?: GraphQLSyncPushOptions;
