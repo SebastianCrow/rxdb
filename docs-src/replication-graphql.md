@@ -299,6 +299,14 @@ replicationState.setHeaders({
 });
 ```
 
+#### .setCredentials()
+
+Changes the credentials for the replication after it has been set up.
+
+```js
+replicationState.setCredentials('same-origin');
+```
+
 #### .awaitInitialReplication()
 
 Returns a `Promise` that is resolved as soon as the initial replication is done.

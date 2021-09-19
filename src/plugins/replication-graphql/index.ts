@@ -78,11 +78,13 @@ export class RxGraphQLReplicationState {
         public readonly live: boolean,
         public liveInterval: number,
         public retryTime: number,
-        public readonly syncRevisions: boolean
+        public readonly syncRevisions: boolean,
+        public credentials?: RequestCredentials
     ) {
         this.client = GraphQLClient({
             url,
-            headers
+            headers,
+            credentials
         });
         this.endpointHash = hash(url);
         this._prepare();
@@ -483,7 +485,16 @@ export class RxGraphQLReplicationState {
     setHeaders(headers: { [k: string]: string }): void {
         this.client = GraphQLClient({
             url: this.url,
-            headers
+            headers,
+            credentials: this.credentials
+        });
+    }
+
+    setCredentials(credentials: RequestCredentials): void {
+        this.client = GraphQLClient({
+            url: this.url,
+            credentials,
+            headers: this.headers
         });
     }
 }
@@ -493,6 +504,7 @@ export function syncGraphQL(
     {
         url,
         headers = {},
+        credentials,
         waitForLeadership = true,
         pull,
         push,
@@ -529,7 +541,8 @@ export function syncGraphQL(
         live,
         liveInterval,
         retryTime,
-        syncRevisions
+        syncRevisions,
+        credentials
     );
 
     if (!autoStart) {
